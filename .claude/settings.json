@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "anthropic-design@local": true,
+    "ui-ux-pro-max@local": true
+  }
+}

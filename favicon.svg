@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Outer ring gold -->
+  <circle cx="32" cy="32" r="31" fill="#c4920a"/>
+  <!-- Inner disc navy -->
+  <circle cx="32" cy="32" r="28" fill="#1e2d5a"/>
+  <!-- Cross / plus mark -->
+  <rect x="29.5" y="14" width="5" height="36" rx="2.5" fill="#c4920a" opacity=".9"/>
+  <rect x="14" y="29.5" width="36" height="5" rx="2.5" fill="#c4920a" opacity=".9"/>
+  <!-- Initials RMC -->
+  <text x="32" y="36" text-anchor="middle" font-family="Georgia,serif" font-size="10" font-weight="700" fill="#f7c873" letter-spacing="1.5">RMC</text>
+</svg>

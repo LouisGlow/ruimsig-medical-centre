@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ruimsig Medical Centre — Comprehensive family healthcare in Roodepoort. Six dedicated GPs, procedure room, and on-site Lancet depot at the Ruimsig Centre.">
+<title>Ruimsig Medical Centre | Family Healthcare</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── LIGHT THEME ── */
+:root{
+  --card:#e3eaf2;--ring:#f7c873;--input:#6ea3c1;--muted:#e5e5df;
+  --accent:#6ea3c1;--border:#b0b8c1;--radius:0.5rem;
+  --primary:#3a5ba0;--secondary:#f7c873;--background:#f5f7fa;
+  --foreground:#1a2238;--popover:#fffbe6;
+  --primary-foreground:#fffbe6;--secondary-foreground:#1a2238;
+  --muted-foreground:#3a5ba0;--accent-foreground:#1a2238;
+  --card-foreground:#1a2238;--popover-foreground:#1a2238;
+  --destructive:#2d1e2f;--destructive-foreground:#fffbe6;
+  --font-sans:'Libre Baskerville',serif;
+  /* internal scale */
+  --t900:#0f1525;--t800:#23315a;--t700:#2a3d6b;--t600:#3a5ba0;
+  --t500:#4a6db5;--t400:#6ea3c1;--t200:#b8cde3;--t100:#d4e4f0;--t50:#edf3f8;
+  --a600:#c4920a;--a500:#f7c873;--a400:#fad690;--a100:#fef7e3;
+  --ww:#ffffff;--w50:#f5f7fa;--tp:#1a2238;--ts:#4a5e78;--tm:#7a88a1;
+  --bd:#b0b8c1;--wh:#ffffff;--wa:#25D366;
+  --fd:'Playfair Display',Georgia,serif;
+  --fb:'Libre Baskerville',Georgia,serif;
+  --rsm:8px;--rmd:16px;--rlg:24px;--rxl:32px;
+  --ssm:0 2px 8px rgba(26,34,56,.08);
+  --smd:0 8px 24px rgba(26,34,56,.12);
+  --slg:0 20px 48px rgba(26,34,56,.16);
+  --ease:all .3s cubic-bezier(.4,0,.2,1)
+}
+
+/* ── DARK THEME ── */
+.dark{
+  --card:#23243a;--ring:#ffe066;--input:#3a5ba0;--muted:#23243a;
+  --accent:#bccdf0;--border:#2d2e3e;
+  --primary:#3a5ba0;--secondary:#ffe066;--background:#181a24;
+  --foreground:#e6eaf3;--popover:#23243a;
+  --primary-foreground:#ffe066;--secondary-foreground:#23243a;
+  --muted-foreground:#7a88a1;--accent-foreground:#181a24;
+  --card-foreground:#e6eaf3;--popover-foreground:#ffe066;
+  --destructive:#a04a6c;--destructive-foreground:#ffe066;
+  --t900:#080a12;--t800:#12162a;--t700:#1a2238;--t600:#3a5ba0;
+  --t500:#4a6db5;--t400:#6ea3c1;--t200:#2a4060;--t100:#1e3050;--t50:#182440;
+  --a600:#b8880a;--a500:#ffe066;--a400:#ffe896;--a100:#2a2600;
+  --ww:#181a24;--w50:#23243a;--tp:#e6eaf3;--ts:#a0b0c8;--tm:#7a88a1;
+  --bd:#2d2e3e;--wh:#23243a;
+  --ssm:0 2px 8px rgba(0,0,0,.22);
+  --smd:0 8px 24px rgba(0,0,0,.32);
+  --slg:0 20px 48px rgba(0,0,0,.42)
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--ww);color:var(--tp);line-height:1.7;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ── HEADER ── */
+#site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:4px 0;transition:var(--ease)}
+#site-header.scrolled{background:rgba(35,49,90,.97);backdrop-filter:blur(12px);padding:10px 0;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+.dark #site-header.scrolled{background:rgba(18,22,42,.97)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+/* White logo on dark header — Ruimsig logo is dark navy text, invert to white */
+.nav-logo-img{height:72px;width:auto;display:block;filter:brightness(0) invert(1)}
+/* ── SLIDING PILL NAV ── */
+.nav-links{
+  position:relative;
+  display:flex;
+  align-items:center;
+  list-style:none;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:100px;
+  padding:4px;
+  background:rgba(255,255,255,.07);
+  gap:0;
+}
+.nav-links li:not(.nav-pill){position:relative;z-index:1}
+.nav-links a{
+  display:block;
+  color:rgba(255,255,255,.85);
+  text-decoration:none;
+  font-size:.78rem;
+  font-weight:400;
+  padding:7px 15px;
+  border-radius:100px;
+  white-space:nowrap;
+  transition:color .2s ease;
+  letter-spacing:.01em;
+}
+.nav-links a:hover{color:#fff;background:none}
+.nav-pill{
+  position:absolute;
+  z-index:0;
+  top:4px;
+  left:0;
+  width:0;
+  height:calc(100% - 8px);
+  border-radius:100px;
+  background:var(--a500);
+  pointer-events:none;
+  opacity:0;
+  will-change:transform,width,opacity;
+  transition:transform .28s cubic-bezier(.4,0,.2,1),
+             width .28s cubic-bezier(.4,0,.2,1),
+             opacity .18s ease;
+}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.btn-call{display:flex;align-items:center;gap:7px;background:var(--a500);color:var(--t800);text-decoration:none;font-weight:700;font-size:.82rem;padding:9px 16px;border-radius:8px;transition:var(--ease);white-space:nowrap}
+.btn-call:hover{background:var(--a600);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(247,200,115,.35)}
+.btn-wa-nav{width:36px;height:36px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:var(--ease)}
+.btn-wa-nav:hover{background:var(--wa)}
+.btn-theme{width:34px;height:34px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--ease);flex-shrink:0}
+.btn-theme:hover{background:rgba(255,255,255,.18)}
+.btn-theme svg{pointer-events:none}
+.icon-sun{display:none}.icon-moon{display:block}
+.dark .icon-sun{display:block}.dark .icon-moon{display:none}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:var(--ease)}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ── MOBILE NAV ── */
+.mobile-nav{display:none;position:fixed;inset:0;background:var(--t800);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.dark .mobile-nav{background:#12162a}
+.mobile-nav.open{opacity:1;pointer-events:all}
+.mobile-nav a{color:#fff;text-decoration:none;font-family:var(--fd);font-size:2rem;font-weight:500;transition:color .2s}
+.mobile-nav a:hover{color:var(--a400)}
+.mobile-nav-cta{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.mobile-nav-cta a{font-family:var(--fb);font-size:.95rem;color:var(--t200)}
+
+/* ── HERO ── */
+#home{min-height:100vh;background:linear-gradient(148deg,#ffffff 0%,#eef5fb 45%,#ddeaf5 100%);position:relative;display:flex;flex-direction:column;overflow:hidden}
+.hero-nav-shade{position:absolute;top:0;left:0;right:0;height:170px;background:linear-gradient(180deg,rgba(10,15,30,.54) 0%,rgba(10,15,30,.18) 55%,transparent 100%);pointer-events:none;z-index:1}
+/* ── AURORA BACKGROUND ── */
+.aurora-bg{position:absolute;inset:-10px;overflow:hidden;pointer-events:none;z-index:0}
+.aurora-core{
+  position:absolute;inset:0;opacity:.5;will-change:transform;
+  filter:blur(10px) invert(1);
+  background-image:
+    repeating-linear-gradient(100deg,#fff 0%,#fff 7%,transparent 10%,transparent 12%,#fff 16%),
+    repeating-linear-gradient(100deg,#6ea3c1 10%,#b8cde3 15%,#edf3f8 20%,#f7c873 25%,#4a6db5 30%);
+  background-size:300% 200%,200% 100%;
+  background-position:50% 50%,50% 50%;
+  mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 70%);
+  -webkit-mask-image:radial-gradient(ellipse at 100% 0%,black 10%,transparent 70%);
+  animation:auroraMove 20s linear infinite}
+.aurora-core::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(100deg,#fff 0%,#fff 7%,transparent 10%,transparent 12%,#fff 16%),
+    repeating-linear-gradient(100deg,#6ea3c1 10%,#b8cde3 15%,#edf3f8 20%,#f7c873 25%,#4a6db5 30%);
+  background-size:200% 100%,100% 50%;
+  background-attachment:fixed;
+  mix-blend-mode:difference;
+  animation:auroraMove 20s linear infinite}
+@keyframes auroraMove{from{background-position:50% 50%,50% 50%}to{background-position:350% 50%,350% 50%}}
+.hero-body{flex:1;display:flex;align-items:center;position:relative;z-index:2}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;padding:130px 0 80px;width:100%}
+.hero-content{max-width:540px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,91,160,.09);border:1px solid rgba(58,91,160,.22);border-radius:100px;padding:7px 16px;font-size:.72rem;color:var(--t600);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.tag-dot{width:6px;height:6px;background:var(--wa);border-radius:50%;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.hero-h1{font-family:var(--fd);font-size:clamp(2.4rem,4.8vw,4.2rem);font-weight:700;color:var(--t900);line-height:1.08;margin-bottom:18px}
+.hero-h1 em{color:var(--t600);font-style:normal}
+.hero-sub{font-size:.98rem;color:var(--ts);line-height:1.88;margin-bottom:30px;font-weight:400}
+.hero-btns{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--a500);color:var(--t800);text-decoration:none;font-weight:700;font-size:.92rem;padding:13px 26px;border-radius:10px;transition:var(--ease)}
+.btn-primary:hover{background:var(--a600);color:#fff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(247,200,115,.4)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--t800);text-decoration:none;font-weight:400;font-size:.92rem;padding:13px 26px;border-radius:10px;border:1.5px solid rgba(35,49,90,.28);transition:var(--ease)}
+.btn-outline:hover{background:rgba(35,49,90,.05);border-color:var(--t600);color:var(--t700)}
+/* Trusted-by avatar stack */
+.hero-trust{display:flex;align-items:center;gap:13px;margin-bottom:28px}
+.trust-avatars{display:flex;align-items:center}
+.trust-av{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2.5px solid #fff;margin-left:-10px;flex-shrink:0;box-shadow:0 2px 8px rgba(26,34,56,.14)}
+.trust-av:first-child{margin-left:0}
+.trust-av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.trust-text{font-size:.83rem;color:var(--ts);line-height:1.4}
+.trust-text strong{color:var(--tp);display:block;font-size:.85rem;font-weight:700}
+/* Hours badges */
+.hero-hours{display:flex;flex-wrap:wrap;gap:10px}
+.hbadge{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:11px 15px;box-shadow:0 2px 10px rgba(26,34,56,.07)}
+.hbadge-icon{width:30px;height:30px;background:var(--t50);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hbadge-label{font-size:.65rem;color:var(--tm);text-transform:uppercase;letter-spacing:.06em;font-weight:700;display:block}
+.hbadge-val{font-size:.88rem;color:var(--tp);font-weight:700;display:block}
+/* ── HERO MEDIA (right column) — landscape container for building exterior ── */
+.hero-media{position:relative;height:400px;display:flex;align-items:center;justify-content:flex-end}
+.hero-img-wrap{position:relative;z-index:2;width:580px;height:340px;border-radius:24px;overflow:hidden;box-shadow:0 28px 70px rgba(26,34,56,.2)}
+.hero-img-wrap img{position:absolute;top:0;left:0;height:100%;width:auto;max-width:none;display:block;will-change:transform}
+/* Floating trust badges */
+.hero-badge{position:absolute;background:#fff;border-radius:14px;padding:11px 15px;box-shadow:0 8px 30px rgba(26,34,56,.13);display:flex;align-items:center;gap:10px;z-index:5;border:1px solid rgba(26,34,56,.06)}
+.hero-badge-est{left:-20px;top:50px;animation:floatY 4s ease-in-out infinite}
+.hero-badge-rating{left:-20px;bottom:50px;animation:floatY 4s ease-in-out infinite .9s}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hb-icon{width:36px;height:36px;background:var(--t50);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hb-main{font-size:.86rem;font-weight:700;color:var(--tp);display:block;line-height:1.3}
+.hb-sub{font-size:.7rem;color:var(--tm);display:block}
+.hb-stars{color:var(--a600);font-size:.95rem;display:block;line-height:1.3;letter-spacing:1px}
+/* ── HERO STATS BAR ── */
+.hero-stats{background:var(--t900);padding:26px 0;position:relative;z-index:3;flex-shrink:0}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-item{text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,.09)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--a500);display:block;line-height:1;margin-bottom:5px}
+.stat-lbl{font-size:.7rem;color:rgba(255,255,255,.48);text-transform:uppercase;letter-spacing:.08em}
+/* ── HERO DARK MODE ── */
+.dark #home{background:linear-gradient(150deg,var(--t800) 0%,var(--t900) 55%,#0a0d14 100%)}
+.dark .hero-nav-shade{display:none}
+.dark .aurora-core{filter:blur(10px);opacity:.4;background-image:repeating-linear-gradient(100deg,#000 0%,#000 7%,transparent 10%,transparent 12%,#000 16%),repeating-linear-gradient(100deg,#6ea3c1 10%,#b8cde3 15%,#edf3f8 20%,#f7c873 25%,#4a6db5 30%)}
+.dark .aurora-core::after{background-image:repeating-linear-gradient(100deg,#000 0%,#000 7%,transparent 10%,transparent 12%,#000 16%),repeating-linear-gradient(100deg,#6ea3c1 10%,#b8cde3 15%,#edf3f8 20%,#f7c873 25%,#4a6db5 30%)}
+.dark .hero-h1{color:#fff}
+.dark .hero-sub{color:rgba(255,255,255,.65)}
+.dark .hero-tag{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.35);color:#fff;font-weight:600}
+.dark .hbadge{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);box-shadow:none}
+.dark .hbadge-icon{background:rgba(58,91,160,.3)}
+.dark .hbadge-label{color:var(--t200)}
+.dark .hbadge-val{color:#fff}
+.dark .btn-outline{color:#fff;border-color:rgba(255,255,255,.3)}
+.dark .btn-outline:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.55);color:#fff}
+.dark .hero-badge{background:var(--t800);border-color:rgba(255,255,255,.1)}
+.dark .hb-main{color:#fff}
+.dark .hb-sub{color:var(--tm)}
+.dark .hb-icon{background:var(--t700)}
+.dark .trust-av{border-color:var(--t600)}
+.dark .trust-text{color:var(--ts)}
+.dark .trust-text strong{color:rgba(255,255,255,.85)}
+
+/* ── SECTIONS ── */
+section{padding:88px 0}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--t500);margin-bottom:14px}
+.sec-label::before{content:'';display:block;width:22px;height:2px;background:var(--t500);border-radius:1px}
+.sec-h2{font-family:var(--fd);font-size:clamp(1.7rem,4vw,2.7rem);font-weight:700;color:var(--tp);line-height:1.18;margin-bottom:14px}
+.sec-sub{font-size:.95rem;color:var(--ts);line-height:1.85;max-width:560px}
+.sec-head{margin-bottom:52px}
+
+/* ── SERVICES ── */
+#what-we-offer{background:var(--ww)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc-card{background:var(--wh);border-radius:var(--rmd);padding:30px;border:1.5px solid var(--bd);transition:var(--ease);position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--t600),var(--t400));transform:scaleX(0);transition:transform .3s ease}
+.svc-card:hover{border-color:var(--t400);box-shadow:var(--smd);transform:translateY(-4px)}
+.svc-card:hover::before{transform:scaleX(1)}
+/* Icon band — gradient header replacing photo for Ruimsig services */
+.svc-icon-band{
+  display:flex;align-items:center;justify-content:center;
+  margin:-30px -30px 24px;
+  width:calc(100% + 60px);
+  height:130px;
+  transition:filter .4s ease,transform .4s ease;
+}
+.svc-card:hover .svc-icon-band{transform:scale(1.03)}
+.svc-icon-band--gp{background:linear-gradient(135deg,#e8f4f8 0%,#cde6f2 100%)}
+.svc-icon-band--procedure{background:linear-gradient(135deg,#edf3f8 0%,#d4e4f0 100%)}
+.svc-icon-band--lancet{background:linear-gradient(135deg,#e8eef8 0%,#cfdaf5 100%)}
+.dark .svc-icon-band--gp{background:linear-gradient(135deg,#152430 0%,#1a3040 100%)}
+.dark .svc-icon-band--procedure{background:linear-gradient(135deg,#162030 0%,#1a2c44 100%)}
+.dark .svc-icon-band--lancet{background:linear-gradient(135deg,#141e38 0%,#182040 100%)}
+.svc-icon-band svg{width:52px;height:52px;opacity:.75}
+.svc-title{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--tp);margin-bottom:8px}
+.svc-desc{font-size:.875rem;color:var(--ts);line-height:1.75}
+.svc-desc a{color:var(--t600);font-weight:700;text-decoration:none}
+.svc-desc a:hover{color:var(--t700)}
+
+/* ── OUR PEOPLE ── */
+#our-people{background:var(--w50)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:22px;margin-bottom:56px}
+.doc-card{background:var(--wh);border-radius:var(--rmd);padding:26px 22px;border:1.5px solid var(--bd);transition:var(--ease);text-align:center}
+.doc-card:hover{box-shadow:var(--smd);transform:translateY(-4px);border-color:var(--t400)}
+.doc-avatar{width:96px;height:96px;border-radius:50%;overflow:hidden;margin:0 auto 16px;border:3px solid var(--t100);flex-shrink:0}
+.doc-avatar img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.doc-name{font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--tp);margin-bottom:4px}
+.doc-quals{font-size:.73rem;color:var(--tm);margin-bottom:9px;line-height:1.55}
+.doc-spec{font-size:.8rem;color:var(--ts);line-height:1.65}
+.staff-box{background:linear-gradient(135deg,var(--t50),var(--card,#e3eaf2));border-radius:var(--rxl);padding:36px}
+.staff-h3{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--tp);margin-bottom:6px}
+.staff-sub{font-size:.85rem;color:var(--ts);margin-bottom:24px}
+.staff-wrap{display:flex;flex-wrap:wrap;gap:14px}
+.chip{display:flex;align-items:center;gap:11px;background:var(--wh);border:1px solid var(--bd);border-radius:100px;padding:10px 20px 10px 11px;transition:var(--ease)}
+.chip:hover{border-color:var(--t400);box-shadow:var(--ssm)}
+.chip-av{width:50px;height:50px;border-radius:50%;overflow:hidden;flex-shrink:0;border:3px solid var(--t100)}
+.chip-av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.chip-av--init{background:var(--t700);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--a500)}
+.chip-name{font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--tp);display:block;line-height:1.2}
+.chip-role{font-size:.73rem;color:var(--tm);display:block}
+
+/* ── CONTACT ── */
+#contact-us{background:var(--ww)}
+.con-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:stretch}
+.con-card{background:var(--wh);border-radius:var(--rlg);padding:36px;border:1.5px solid var(--bd);box-shadow:var(--ssm);height:100%}
+.con-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--bd)}
+.con-item:last-of-type{border-bottom:none}
+.con-icon{width:38px;height:38px;background:var(--t50);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.con-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tm);margin-bottom:3px}
+.con-val{font-size:.92rem;color:var(--tp);font-weight:400}
+.con-val a{color:var(--t600);text-decoration:none;transition:color .2s;font-weight:700}
+.con-val a:hover{color:var(--t700)}
+.hours-tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.hours-tbl tr:not(:last-child){border-bottom:1px solid var(--bd)}
+.hours-tbl td{padding:7px 0;font-size:.85rem}
+.hours-tbl td:last-child{text-align:right;font-weight:700;color:var(--t600)}
+.hours-tbl .closed td:last-child{color:var(--a600)}
+.map-wrap{border-radius:var(--rlg);overflow:hidden;height:100%;min-height:400px;border:1.5px solid var(--bd)}
+.map-wrap iframe{width:100%;height:100%;border:none;display:block}
+
+/* ── FOOTER ── */
+footer{background:var(--t900);padding:60px 0 28px}
+.dark footer{background:#080a12}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:44px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:28px}
+.foot-logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:14px}
+.foot-logo-img{height:56px;width:auto;display:block;filter:brightness(0) invert(1);opacity:.85}
+.foot-tag{font-size:.84rem;color:rgba(255,255,255,.38);line-height:1.8;max-width:290px;margin-bottom:22px}
+.foot-contacts{display:flex;flex-direction:column;gap:9px}
+.foot-ci{display:flex;align-items:center;gap:9px;font-size:.84rem;color:rgba(255,255,255,.5)}
+.foot-ci a{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.foot-ci a:hover{color:var(--a400)}
+.foot-h{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--a500);margin-bottom:18px}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-links a{font-size:.84rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--a400)}
+.foot-hours{list-style:none;display:flex;flex-direction:column;gap:8px}
+.foot-hours li{font-size:.84rem;color:rgba(255,255,255,.45)}
+.foot-hours .cl{color:rgba(247,200,115,.65)}
+.foot-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.foot-copy{font-size:.78rem;color:rgba(255,255,255,.25)}
+
+/* ── WA FAB ── */
+.wa-fab{position:fixed;bottom:26px;right:26px;z-index:900;width:56px;height:56px;background:var(--wa);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.5);transition:var(--ease);animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) 1s both}
+.wa-fab:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.6)}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ── FADE-IN ── */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.fi.vis{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-inner{gap:36px}
+  .hero-img-wrap{width:380px;height:230px}
+  .hero-media{height:300px}
+}
+@media(max-width:768px){
+  .nav-links,.nav-actions>*:not(.hamburger):not(.btn-theme){display:none}
+  .hamburger{display:flex}
+  .mobile-nav{display:flex}
+  section{padding:64px 0}
+  .svc-grid{grid-template-columns:1fr}
+  .doc-grid{grid-template-columns:repeat(2,1fr)}
+  .con-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .map-wrap{height:320px}
+  .staff-box{padding:22px}
+  .con-card{padding:22px}
+  #home{min-height:auto}
+  .hero-inner{grid-template-columns:1fr;padding:100px 0 56px}
+  .hero-content{max-width:100%}
+  .hero-media{display:none}
+  .hero-btns{flex-direction:column;align-items:flex-start}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-item{padding:14px 16px;border-right:none;border-bottom:1px solid rgba(255,255,255,.09)}
+  .stat-item:nth-child(odd){border-right:1px solid rgba(255,255,255,.09)}
+  .stat-item:nth-last-child(-n+2){border-bottom:none}
+}
+@media(max-width:480px){
+  .doc-grid{grid-template-columns:1fr}
+  .foot-bot{flex-direction:column}
+  .stats-inner{grid-template-columns:1fr}
+  .stat-item{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.09)}
+  .stat-item:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#what-we-offer" onclick="closeMenu()">What We Offer</a>
+  <a href="#our-people" onclick="closeMenu()">Our People</a>
+  <a href="#contact-us" onclick="closeMenu()">Contact Us</a>
+  <div class="mobile-nav-cta">
+    <a href="tel:0119580364" onclick="closeMenu()">&#9990; 011 958 0364</a>
+    <a href="https://wa.me/27119580364" target="_blank" rel="noopener" onclick="closeMenu()">WhatsApp Us</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header id="site-header" role="banner">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo" aria-label="Ruimsig Medical Centre home">
+        <img src="assets/images/logo.png" alt="Ruimsig Medical Centre" class="nav-logo-img">
+      </a>
+      <nav aria-label="Main navigation">
+        <ul class="nav-links" role="list">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#what-we-offer">What We Offer</a></li>
+          <li><a href="#our-people">Our People</a></li>
+          <li><a href="#contact-us">Contact Us</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="tel:0119580364" class="btn-call" aria-label="Call 011 958 0364">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 12 19.79 19.79 0 011.3 3.38 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          011 958 0364
+        </a>
+        <a href="https://wa.me/27119580364" target="_blank" rel="noopener noreferrer" class="btn-wa-nav" aria-label="WhatsApp">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <button class="btn-theme" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section id="home" aria-labelledby="hero-h1">
+  <div class="hero-nav-shade" aria-hidden="true"></div>
+  <div class="aurora-bg" aria-hidden="true"><div class="aurora-core"></div></div>
+
+  <div class="hero-body">
+    <div class="container">
+      <div class="hero-inner">
+
+        <!-- LEFT: copy -->
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span class="tag-dot" aria-hidden="true"></span>
+            Serving Roodepoort &middot; Ruimsig
+          </div>
+          <h1 class="hero-h1" id="hero-h1">Your Health.<br><em>Our Priority.</em></h1>
+          <p class="hero-sub">Six experienced doctors bringing compassionate, patient-centred family medicine to Roodepoort — right in the heart of the Ruimsig community.</p>
+          <div class="hero-btns">
+            <a href="#our-people" class="btn-primary">
+              Meet Our Doctors
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://maps.google.com/?q=Shop+26+Ruimsig+Medical+Centre+Cnr+Hendrik+Potgieter+Doreen+Rd+Roodepoort+1724" target="_blank" rel="noopener noreferrer" class="btn-outline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Get Directions
+            </a>
+          </div>
+          <!-- Doctor avatar stack -->
+          <div class="hero-trust">
+            <div class="trust-avatars" aria-hidden="true">
+              <div class="trust-av"><img src="assets/images/team-fred-de-beer.jpg" alt=""></div>
+              <div class="trust-av"><img src="assets/images/team-maz-moyo.png" alt=""></div>
+              <div class="trust-av"><img src="assets/images/team-nosipho-mogalakwe.png" alt=""></div>
+              <div class="trust-av"><img src="assets/images/team-vijay-moodley.png" alt=""></div>
+              <div class="trust-av" style="background:var(--t700);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.7rem;font-weight:700;color:var(--a500);">R</div>
+            </div>
+            <div class="trust-text">
+              <strong>6 Dedicated Doctors</strong>
+              Comprehensive care for your whole family
+            </div>
+          </div>
+          <!-- Hours badges -->
+          <div class="hero-hours" aria-label="Operating hours">
+            <div class="hbadge">
+              <div class="hbadge-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--t500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              </div>
+              <div>
+                <span class="hbadge-label">Weekdays</span>
+                <span class="hbadge-val">07:00 – 19:00</span>
+              </div>
+            </div>
+            <div class="hbadge">
+              <div class="hbadge-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--t500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <span class="hbadge-label">Weekends &amp; Holidays</span>
+                <span class="hbadge-val">08:00 – 13:00</span>
+              </div>
+            </div>
+          </div>
+        </div><!-- /hero-content -->
+
+        <!-- RIGHT: practice exterior photo -->
+        <div class="hero-media" aria-hidden="true">
+          <div class="hero-img-wrap">
+            <img src="assets/images/hero.jpg" alt="Ruimsig Medical Centre building" id="hero-pan-img">
+          </div>
+          <!-- Floating badge: location -->
+          <div class="hero-badge hero-badge-est">
+            <div class="hb-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <span class="hb-main">Ruimsig Centre</span>
+              <span class="hb-sub">Roodepoort, 1724</span>
+            </div>
+          </div>
+          <!-- Floating badge: community trust -->
+          <div class="hero-badge hero-badge-rating">
+            <div class="hb-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--a600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div>
+              <span class="hb-stars">★★★★★</span>
+              <span class="hb-sub">Community Trusted</span>
+            </div>
+          </div>
+        </div><!-- /hero-media -->
+
+      </div><!-- /hero-inner -->
+    </div><!-- /container -->
+  </div><!-- /hero-body -->
+
+  <!-- Stats bar -->
+  <div class="hero-stats" role="region" aria-label="Practice at a glance">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <span class="stat-num">6</span>
+          <span class="stat-lbl">Experienced Doctors</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">3</span>
+          <span class="stat-lbl">On-Site Services</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">7<small style="font-size:1.1rem">AM</small></span>
+          <span class="stat-lbl">Open Weekdays</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" style="font-size:1.3rem;padding-top:6px">West<br>Rand</span>
+          <span class="stat-lbl">Roodepoort Community</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="what-we-offer" aria-labelledby="svc-h2">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-label" aria-hidden="true">What We Offer</div>
+      <h2 class="sec-h2" id="svc-h2">Quality Care<br>Under One Roof</h2>
+      <p class="sec-sub">From routine consultations to on-site pathology — our practice is equipped to look after your whole family's healthcare needs.</p>
+    </div>
+    <div class="svc-grid">
+
+      <article class="svc-card fi" aria-labelledby="svc1">
+        <div class="svc-icon-band svc-icon-band--gp" aria-hidden="true">
+          <!-- Stethoscope icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4.8 2.3A.3.3 0 105 2H4a2 2 0 00-2 2v5a6 6 0 006 6v0a6 6 0 006-6V4a2 2 0 00-2-2h-1a.2.2 0 10.3.3"/>
+            <path d="M8 15v1a6 6 0 006 6v0a6 6 0 006-6v-4"/>
+            <circle cx="20" cy="10" r="2"/>
+          </svg>
+        </div>
+        <h3 class="svc-title" id="svc1">General Practitioners</h3>
+        <p class="svc-desc">Six doctors providing comprehensive GP services for your whole family — from routine check-ups and chronic disease management to acute care and referrals.</p>
+      </article>
+
+      <article class="svc-card fi" style="transition-delay:.05s" aria-labelledby="svc2">
+        <div class="svc-icon-band svc-icon-band--procedure" aria-hidden="true">
+          <!-- Medical cross / procedure icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M12 8v8M8 12h8"/>
+          </svg>
+        </div>
+        <h3 class="svc-title" id="svc2">Procedure Room</h3>
+        <p class="svc-desc">Minor procedures performed under local anaesthetic and management of minor emergencies — all handled safely in our dedicated on-site procedure room.</p>
+      </article>
+
+      <article class="svc-card fi" style="transition-delay:.1s" aria-labelledby="svc3">
+        <div class="svc-icon-band svc-icon-band--lancet" aria-hidden="true">
+          <!-- Flask / lab icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6M9 3v7l-4 8a1 1 0 00.9 1.5h12.2a1 1 0 00.9-1.5l-4-8V3"/>
+            <path d="M7.5 15.5h9"/>
+          </svg>
+        </div>
+        <h3 class="svc-title" id="svc3">Lancet Depot</h3>
+        <p class="svc-desc">Lancet pathology depot conveniently located within the same centre — no need to travel separately for blood tests and laboratory services.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- OUR PEOPLE -->
+<section id="our-people" aria-labelledby="ppl-h2">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-label" aria-hidden="true">Our People</div>
+      <h2 class="sec-h2" id="ppl-h2">The Team Behind<br>Your Care</h2>
+      <p class="sec-sub">Our doctors and support staff bring expertise, compassion and commitment to every patient visit.</p>
+    </div>
+
+    <div class="doc-grid" aria-label="Our doctors">
+
+      <article class="doc-card fi" aria-labelledby="dr1">
+        <div class="doc-avatar"><img src="assets/images/team-fred-de-beer.jpg" alt="Dr. Fred de Beer"></div>
+        <h3 class="doc-name" id="dr1">Dr. Fred de Beer</h3>
+        <p class="doc-quals">MBChB Pretoria (1988)</p>
+        <p class="doc-spec">Extensive experience in hospital, general practice, trauma and emergency care across Gauteng and the Middle East. Special interest in minor local surgery and patient interaction.</p>
+      </article>
+
+      <article class="doc-card fi" style="transition-delay:.05s" aria-labelledby="dr2">
+        <div class="doc-avatar"><img src="assets/images/team-maz-moyo.png" alt="Dr. Maz Moyo"></div>
+        <h3 class="doc-name" id="dr2">Dr. Maz Moyo</h3>
+        <p class="doc-quals">General Practitioner</p>
+        <p class="doc-spec">Passionate about holistic healthcare, Dr. Moyo strives to ensure every patient is treated appropriately and with the utmost respect and dignity.</p>
+      </article>
+
+      <article class="doc-card fi" style="transition-delay:.1s" aria-labelledby="dr3">
+        <div class="doc-avatar"><img src="assets/images/team-nosipho-mogalakwe.png" alt="Dr. Nosipho Mogalakwe"></div>
+        <h3 class="doc-name" id="dr3">Dr. Nosipho Mogalakwe</h3>
+        <p class="doc-quals">MBChB (Wits) &middot; PDM (Wits)<br>BHSc Biomedical Science (Wits)</p>
+        <p class="doc-spec">Dedicated and patient-centred, Dr. Mogalakwe believes in delivering care with compassion and clinical excellence across all stages of life.</p>
+      </article>
+
+      <article class="doc-card fi" style="transition-delay:.15s" aria-labelledby="dr4">
+        <div class="doc-avatar"><img src="assets/images/team-vijay-moodley.png" alt="Dr. Vijay Moodley"></div>
+        <h3 class="doc-name" id="dr4">Dr. Vijay Moodley</h3>
+        <p class="doc-quals">General Practitioner</p>
+        <p class="doc-spec">With experience spanning the Western Cape, KZN, Gauteng and the UK, Dr. Moodley's clinical interests include men's health, women's health, and mental health.</p>
+      </article>
+
+      <article class="doc-card fi" style="transition-delay:.2s" aria-labelledby="dr5">
+        <div class="doc-avatar"><img src="assets/images/team-rene-cuyler-placeholder.jpg" alt="Dr. Rene Cuyler"></div>
+        <h3 class="doc-name" id="dr5">Dr. Rene Cuyler</h3>
+        <p class="doc-quals">General Practitioner</p>
+        <p class="doc-spec">Committed to compassionate, patient-centred primary healthcare. Further information to follow.</p>
+      </article>
+
+    </div>
+
+    <div class="staff-box fi">
+      <h3 class="staff-h3">Our Support Team</h3>
+      <p class="staff-sub">The dedicated people who ensure every visit runs smoothly</p>
+      <div class="staff-wrap" role="list">
+        <div class="chip" role="listitem">
+          <div class="chip-av"><img src="assets/images/team-sr-karabo.png" alt="Sr. Karabo"></div>
+          <div><span class="chip-name">Sr. Karabo</span><span class="chip-role">Registered Nurse</span></div>
+        </div>
+        <div class="chip" role="listitem">
+          <div class="chip-av"><img src="assets/images/team-sandra.jpg" alt="Sandra"></div>
+          <div><span class="chip-name">Sandra</span><span class="chip-role">Reception</span></div>
+        </div>
+        <div class="chip" role="listitem">
+          <div class="chip-av"><img src="assets/images/team-lesego.png" alt="Lesego"></div>
+          <div><span class="chip-name">Lesego</span><span class="chip-role">Nursing</span></div>
+        </div>
+        <div class="chip" role="listitem">
+          <div class="chip-av"><img src="assets/images/team-lizzy.png" alt="Lizzy"></div>
+          <div><span class="chip-name">Lizzy</span><span class="chip-role">Reception</span></div>
+        </div>
+        <div class="chip" role="listitem">
+          <div class="chip-av"><img src="assets/images/team-patience.png" alt="Patience"></div>
+          <div><span class="chip-name">Patience</span><span class="chip-role">Reception</span></div>
+        </div>
+        <div class="chip" role="listitem">
+          <div class="chip-av chip-av--init">E</div>
+          <div><span class="chip-name">Evelyn</span><span class="chip-role">Cleaning</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact-us" aria-labelledby="con-h2">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-label" aria-hidden="true">Contact Us</div>
+      <h2 class="sec-h2" id="con-h2">Find Us &amp;<br>Get in Touch</h2>
+      <p class="sec-sub">Conveniently located at the Ruimsig Centre on the corner of Hendrik Potgieter and Doreen Road. Walk-ins welcome during operating hours.</p>
+    </div>
+    <div class="con-grid">
+
+      <div class="con-card fi">
+
+        <div class="con-item">
+          <div class="con-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="con-lbl">Address</div>
+            <div class="con-val">Shop 26, Ruimsig Medical Centre<br>Cnr Hendrik Potgieter &amp; Doreen Rd<br>Roodepoort, 1724</div>
+          </div>
+        </div>
+
+        <div class="con-item">
+          <div class="con-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 12 19.79 19.79 0 011.3 3.38 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div>
+            <div class="con-lbl">Telephone</div>
+            <div class="con-val"><a href="tel:0119580364">011 958 0364</a></div>
+          </div>
+        </div>
+
+        <div class="con-item">
+          <div class="con-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+          <div>
+            <div class="con-lbl">WhatsApp</div>
+            <div class="con-val"><a href="https://wa.me/27119580364" target="_blank" rel="noopener noreferrer">011 958 0364</a></div>
+          </div>
+        </div>
+
+        <div class="con-item">
+          <div class="con-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="con-lbl">Email</div>
+            <div class="con-val"><a href="mailto:ruimsigontvangs1@gmail.com">ruimsigontvangs1@gmail.com</a></div>
+          </div>
+        </div>
+
+        <div class="con-item">
+          <div class="con-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--t600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+          <div>
+            <div class="con-lbl">Operating Hours</div>
+            <div class="con-val">
+              <table class="hours-tbl" aria-label="Operating hours">
+                <tbody>
+                  <tr><td>Monday – Friday</td><td>07:00 – 19:00</td></tr>
+                  <tr><td>Saturday</td><td>08:00 – 13:00</td></tr>
+                  <tr><td>Sunday</td><td>08:00 – 13:00</td></tr>
+                  <tr><td>Public Holidays</td><td>08:00 – 13:00</td></tr>
+                  <tr class="closed"><td>25 – 26 December</td><td>Closed</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="map-wrap fi" style="transition-delay:.1s">
+        <iframe
+          src="https://maps.google.com/maps?q=Ruimsig+Medical+Centre+Cnr+Hendrik+Potgieter+Doreen+Rd+Roodepoort+1724&output=embed&z=15"
+          title="Ruimsig Medical Centre map"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          aria-label="Map showing Ruimsig Medical Centre at Cnr Hendrik Potgieter and Doreen Rd, Roodepoort">
+        </iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="#home" class="foot-logo" aria-label="Ruimsig Medical Centre">
+          <img src="assets/images/logo.png" alt="Ruimsig Medical Centre" class="foot-logo-img">
+        </a>
+        <p class="foot-tag">Six dedicated doctors and a warm, professional team serving the Roodepoort community — your health, our priority.</p>
+        <div class="foot-contacts">
+          <div class="foot-ci"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Shop 26, Ruimsig Medical Centre, Roodepoort, 1724</div>
+          <div class="foot-ci"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 12 19.79 19.79 0 011.3 3.38 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> <a href="tel:0119580364">011 958 0364</a></div>
+          <div class="foot-ci"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <a href="mailto:ruimsigontvangs1@gmail.com">ruimsigontvangs1@gmail.com</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="foot-h">Quick Links</div>
+        <ul class="foot-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#what-we-offer">What We Offer</a></li>
+          <li><a href="#our-people">Our People</a></li>
+          <li><a href="#contact-us">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Operating Hours</div>
+        <ul class="foot-hours">
+          <li>Mon – Fri: 07:00 – 19:00</li>
+          <li>Sat – Sun: 08:00 – 13:00</li>
+          <li>Public Holidays: 08:00 – 13:00</li>
+          <li class="cl">25 – 26 Dec: Closed</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p class="foot-copy">&copy; 2025 Ruimsig Medical Centre. All rights reserved.</p>
+      <p class="foot-copy">Shop 26, Ruimsig Medical Centre, Roodepoort</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FAB -->
+<a href="https://wa.me/27119580364"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="wa-fab"
+   aria-label="Chat with us on WhatsApp"
+   title="WhatsApp us">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Sliding pill nav
+const navUl = document.querySelector('.nav-links');
+if (navUl) {
+  const pill = document.createElement('li');
+  pill.className = 'nav-pill';
+  pill.setAttribute('aria-hidden', 'true');
+  navUl.appendChild(pill);
+  navUl.querySelectorAll('li:not(.nav-pill)').forEach(li => {
+    li.addEventListener('mouseenter', () => {
+      pill.style.opacity = '1';
+      pill.style.transform = 'translateX(' + li.offsetLeft + 'px)';
+      pill.style.width = li.offsetWidth + 'px';
+    });
+  });
+  navUl.addEventListener('mouseleave', () => { pill.style.opacity = '0'; });
+}
+
+// Dark mode (runs before paint to avoid flash)
+const root = document.documentElement;
+const saved = localStorage.getItem('rmc-theme');
+if(saved === 'dark') root.classList.add('dark');
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const dark = root.classList.toggle('dark');
+  localStorage.setItem('rmc-theme', dark ? 'dark' : 'light');
+});
+
+// Header scroll
+const hdr = document.getElementById('site-header');
+window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
+
+// Hamburger
+const hbg = document.getElementById('hamburger');
+const mnav = document.getElementById('mobileNav');
+hbg.addEventListener('click', () => {
+  const open = mnav.classList.toggle('open');
+  hbg.classList.toggle('active', open);
+  hbg.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeMenu() {
+  mnav.classList.remove('open');
+  hbg.classList.remove('active');
+  hbg.setAttribute('aria-expanded','false');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+
+// Scroll animations
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+}, {threshold:.1, rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// Smooth scroll (offset for sticky header)
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const t = document.querySelector(this.getAttribute('href'));
+    if(t){ e.preventDefault(); window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - hdr.offsetHeight - 16, behavior:'smooth'}); }
+  });
+});
+
+// Hero image pan — scroll drives translateX
+(function(){
+  const img = document.getElementById('hero-pan-img');
+  const wrap = img && img.closest('.hero-img-wrap');
+  const hero = document.getElementById('home');
+  if(!img || !wrap || !hero) return;
+  const START_PX = 0;
+  function pan(){
+    const overflow = img.offsetWidth - wrap.offsetWidth;
+    if(overflow <= 0) return;
+    const progress = Math.min(Math.max(window.scrollY / hero.offsetHeight, 0), 1);
+    const x = -(START_PX + (overflow - START_PX) * progress);
+    img.style.transform = 'translateX(' + x + 'px)';
+  }
+  img.complete ? pan() : img.addEventListener('load', pan);
+  window.addEventListener('scroll', pan, {passive:true});
+  window.addEventListener('resize', pan, {passive:true});
+})();
+</script>
+</body>
+</html>
