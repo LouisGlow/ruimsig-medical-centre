@@ -163,7 +163,7 @@ body{font-family:var(--fb);background:var(--ww);color:var(--tp);line-height:1.7;
   mix-blend-mode:difference;
   animation:auroraMove 20s linear infinite}
 @keyframes auroraMove{from{background-position:50% 50%,50% 50%}to{background-position:350% 50%,350% 50%}}
-.hero-body{flex:1;display:flex;align-items:center;position:relative;z-index:2}
+.hero-body{flex:1;display:flex;align-items:center;position:relative;z-index:2;overflow:hidden}
 .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;padding:130px 0 80px;width:100%}
 .hero-content{max-width:540px}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,91,160,.09);border:1px solid rgba(58,91,160,.22);border-radius:100px;padding:7px 16px;font-size:.72rem;color:var(--t600);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
@@ -432,9 +432,9 @@ footer{background:var(--t900);padding:60px 0 28px}
 <!-- HERO -->
 <section id="home" aria-labelledby="hero-h1">
   <div class="hero-nav-shade" aria-hidden="true"></div>
-  <div class="aurora-bg" aria-hidden="true"><div class="aurora-core"></div></div>
 
   <div class="hero-body">
+    <div class="aurora-bg" aria-hidden="true"><div class="aurora-core"></div></div>
     <div class="container">
       <div class="hero-inner">
 
